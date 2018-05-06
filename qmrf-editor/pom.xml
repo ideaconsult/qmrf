@@ -9,11 +9,10 @@
 	<name>QMRF editor</name>
 	<description>QMRF editor</description>
 	<scm>
-		<connection>git://git.code.sf.net/p/qmrf/git/qmrf-editor</connection>
-		<developerConnection>ssh://USER@git.code.sf.net/p/qmrf/git/qmrf-editor</developerConnection>
 		
-		<tag>ssh://USER@git.code.sf.net/p/qmrf/git/tags</tag>
 		<url>https://vedina@git.code.sf.net/p/qmrf/git/qmrf-editor</url>
+		<connection>scm:git:git://git.code.sf.net/p/qmrf/git/qmrf-editor</connection>
+		<developerConnection>scm:git:ssh://USER@git.code.sf.net/p/qmrf/git/qmrf-editor</developerConnection>		
 	</scm>
 	<licenses>
 		<license>
@@ -95,6 +94,7 @@
 					<doUpdate>false</doUpdate>
 					<getRevisionOnlyOnce>true</getRevisionOnlyOnce>
 					<locale>US</locale>
+					  <shortRevisionLength>5</shortRevisionLength>
 				</configuration>
 			</plugin>
 
