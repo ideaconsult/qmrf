@@ -9,10 +9,11 @@
 	<name>QMRF editor</name>
 	<description>QMRF editor</description>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/ambit/code/trunk/qmrf/code/trunk/qmrf-editor</connection>
-		<developerConnection>scm:svn+ssh://USER@svn.code.sf.net/p/qmrf/code/trunk/qmrf-editor</developerConnection>
-		<tag>scm:svn:https://svn.code.sf.net/p/qmrf/code/tags</tag>
-		<url>http://svn.code.sf.net/p/qmrf/code/trunk/qmrf-editor/</url>
+		<connection>git://git.code.sf.net/p/qmrf/git/qmrf-editor</connection>
+		<developerConnection>ssh://USER@git.code.sf.net/p/qmrf/git/qmrf-editor</developerConnection>
+		
+		<tag>ssh://USER@git.code.sf.net/p/qmrf/git/tags</tag>
+		<url>https://vedina@git.code.sf.net/p/qmrf/git/qmrf-editor</url>
 	</scm>
 	<licenses>
 		<license>
