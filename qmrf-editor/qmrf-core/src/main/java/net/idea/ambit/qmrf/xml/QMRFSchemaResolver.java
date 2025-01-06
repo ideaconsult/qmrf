@@ -34,14 +34,15 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.tools.ant.util.FileUtils;
+import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 import ambit2.base.io.DownloadTool;
 
 public class QMRFSchemaResolver implements EntityResolver {
-	public static final String defaultLocation = "http://qmrf.sourceforge.net/qmrf.dtd";
+	public static final String defaultLocation = " http://svn.code.sf.net/p/qmrf/code/trunk/schema/3.0.0/qmrf.dtd";
 	protected transient Logger logger = Logger.getLogger(getClass().getName());
 	protected String location;
 	protected boolean ignoreSystemID = false;
@@ -138,8 +139,10 @@ public class QMRFSchemaResolver implements EntityResolver {
 		if (!dtd.exists())
 			try (InputStream in = new URL(publicID).openStream()) {
 				DownloadTool.download(in, dtd);
-				if (FileUtils.readFully(new BufferedReader(new FileReader(dtd))).indexOf("QMRF_chapters") <= 0)
-					return null;
+				String content = new String(Files.readAllBytes(dtd.toPath()), StandardCharsets.UTF_8);
+				if (!content.contains("QMRF_chapters")) {
+	                return null; // Return null if the string is not found
+	            }
 			} catch (Exception x) {
 				return null;
 			}

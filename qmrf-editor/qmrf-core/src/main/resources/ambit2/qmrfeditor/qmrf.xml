@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE QMRF PUBLIC " http://qmrf.sourceforge.net/qmrf3.0.1.dtd" "qmrf.dtd" >
+<!DOCTYPE QMRF PUBLIC "http://svn.code.sf.net/p/qmrf/code/trunk/schema/3.0.0/qmrf.dtd" "qmrf.dtd" >
 <QMRF author="Joint Research Centre, European Commission; eNanoMapper" contact="Joint Research Centre, European Commission; eNanoMapper"
 	date="Oct 2017" email="JRC-COMPUTOX@ec.europa.eu" name="(Q)SAR Model Reporting Format" schema_version="1.0" url="http://qmrf.sf.net" version="3.0.1">
   <QMRF_chapters>
