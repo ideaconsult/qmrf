@@ -24,5 +24,20 @@
 			<artifactId>qmrf-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+ <!-- JAXB API -->
+    <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>4.0.0</version> <!-- Use the latest version -->
+         <scope>test</scope>
+    </dependency>
+
+    <!-- JAXB Runtime Implementation -->
+    <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>4.0.0</version>
+         <scope>test</scope>
+    </dependency>		
 	</dependencies>
 </project>

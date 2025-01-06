@@ -27,7 +27,9 @@
 		<module>qmrf-core</module>
 		<module>freemarker_rtf</module>
 		<module>qmrf-annotation</module>
+<!-- 		
 		<module>qmrf-pmml</module>
+		 -->
 		<module>qmrf-app</module>
 	</modules>
 	<repositories>
@@ -105,11 +107,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.2</version>
-					<configuration>
-						<source>${sourceVersion}</source>
-						<target>${sourceVersion}</target>
-					</configuration>
+					 <version>3.13.0</version>
 				</plugin>
 
 				<plugin>
@@ -225,7 +223,7 @@
 		<junit.version>4.8.1</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<net.idea.loom.version>1.2.1-SNAPSHOT</net.idea.loom.version>
-		<ambit.version>3.1.0-SNAPSHOT</ambit.version>
+		<ambit.version>3.1.0</ambit.version>
 		<apache.jena.version>2.13.0</apache.jena.version>
 	</properties>
 	<profiles>
@@ -256,6 +254,15 @@
 				<sourceVersion>1.8</sourceVersion>
 			</properties>
 		</profile>
+		<profile>
+			<id>JRE9</id>
+			<activation>
+				<jdk>1.9</jdk>
+			</activation>
+			<properties>
+				<sourceVersion>1.9</sourceVersion>
+			</properties>
+		</profile>		
 		<profile>
 			<!-- http://stackoverflow.com/questions/15886209/maven-is-not-working-in-java-8-when-javadoc-tags-are-incomplete -->
 			<id>disable-java8-doclint</id>

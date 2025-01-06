@@ -5,9 +5,7 @@
     <groupId>ambit</groupId>
     <version>3.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>ambit</groupId>
   <artifactId>swing-lib</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
   <name>Old Swing classes</name>
 <dependencies>
 	<dependency>
