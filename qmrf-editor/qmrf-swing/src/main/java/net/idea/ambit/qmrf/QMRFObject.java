@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
 
 package net.idea.ambit.qmrf;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -78,7 +78,6 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 import ambit2.base.interfaces.IAmbitEditor;
-import ambit2.base.io.DownloadTool;
 import ambit2.base.io.SimpleErrorHandler;
 import net.idea.ambit.qmrf.attachments.QMRFAttachments;
 import net.idea.ambit.qmrf.catalogs.Catalog;
@@ -138,9 +137,9 @@ public class QMRFObject extends AmbitObject implements InterfaceQMRF, IAmbitObje
 	protected Catalogs catalogs;
 
 	protected Catalogs external_catalogs;
-	protected String dtdSchema = "http://qmrf.sourceforge.net/qmrf.dtd";
-	protected String xmlSample = "http://ambit.sourceforge.net/qmrf/qmrf.xml";
-	private String ttfFontUrl = "http://ambit.sourceforge.net/qmrf/jws/times.ttf";
+	protected String dtdSchema = "https://qmrf.sourceforge.net/qmrf.dtd";
+	protected String xmlSample = "https://ambit.sourceforge.net/qmrf/qmrf.xml";
+	private String ttfFontUrl = "https://ambit.sourceforge.net/qmrf/jws/times.ttf";
 	protected boolean adminUser = false;
 	protected String source = "New";
 	protected QMRFChapter selectedChapter = null;
@@ -231,14 +230,17 @@ public class QMRFObject extends AmbitObject implements InterfaceQMRF, IAmbitObje
 		try {
 			String filename = "ambit2/qmrfeditor/qmrf.xml";
 
-			try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename)) {
+			
+			try (InputStream in = getResourceAsStream(filename)) {
 				if (in != null)
 					transform_and_read(new InputStreamReader(in, "UTF-8"), true);
 			} catch (Exception x) {
 				x.printStackTrace();
 
-				try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename)) {
+				try (InputStream in = getResourceAsStream(filename)) {
 					read(in);
+				} catch (Exception readException) {  // Catch the IOException thrown by read()
+	                readException.printStackTrace();					
 				} finally {
 					setNotModified();
 				}
@@ -250,6 +252,11 @@ public class QMRFObject extends AmbitObject implements InterfaceQMRF, IAmbitObje
 		}
 	}
 
+	private InputStream getResourceAsStream(String filename) {
+	    return this.getClass().getClassLoader().getResourceAsStream(filename);
+	}
+
+	
 	public void readDefaultCatalogs(Catalogs external) {
 		try {
 			logger.info("Reading default catalogs ");
@@ -534,7 +541,7 @@ public class QMRFObject extends AmbitObject implements InterfaceQMRF, IAmbitObje
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		factory.setNamespaceAware(true);
-		factory.setValidating(true);
+		factory.setValidating(false);
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		builder.setErrorHandler(new SimpleErrorHandler(builder.getClass().getName()));
 		Document doc = builder.newDocument();
@@ -678,9 +685,21 @@ public class QMRFObject extends AmbitObject implements InterfaceQMRF, IAmbitObje
 		String filename = "ambit2/qmrfeditor/qmrf_insert_help.xsl";
 		if (!appendHelp)
 			filename = "ambit2/qmrfeditor/qmrf_delete_help.xsl";
-		InputStream xslt = this.getClass().getClassLoader().getResourceAsStream(filename);
-		xsltTransform(in, xslt, result);
-		xslt.close();
+		try (InputStream xslt = this.getClass().getClassLoader().getResourceAsStream(filename)) {
+	        if (xslt == null) {
+	            throw new FileNotFoundException("XSLT file not found: " + filename);
+	        }
+	        // Perform the transformation
+	        xsltTransform(in, xslt, result);
+		} catch (FileNotFoundException e) {
+	        System.err.println("Error: " + e.getMessage());
+	    } catch (TransformerException e) {
+	        System.err.println("Error during XSLT transformation: " + e.getMessage());
+	    } catch (IOException e) {
+	        System.err.println("IO error: " + e.getMessage());
+	    } catch (Exception e) {
+	        System.err.println("Unexpected error: " + e.getMessage());
+	    }	        
 
 		Document doc = (Document) result.getNode();
 		doc.normalize();
@@ -796,7 +815,7 @@ public class QMRFObject extends AmbitObject implements InterfaceQMRF, IAmbitObje
 				dtdSchema = url;
 			} catch (Exception x) {
 				logger.log(Level.SEVERE, x.getMessage(), x);
-				dtdSchema = "http://ambit.acad.bg/qmrf/qmrf.dtd";
+				dtdSchema = "https://ambit.acad.bg/qmrf/qmrf.dtd";
 				logger.info("Will be using DTD schema at " + dtdSchema);
 			}
 		}
